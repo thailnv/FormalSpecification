@@ -19,10 +19,17 @@ namespace FormalSpecification
     {
         IDictionary<String, String> typesName = new Dictionary<String, String>(){
             {"N", "int"},
+            {"N*", "int"},
             {"R", "float"},
+            {"R+", "float"},
+            {"R-", "float"},
             {"char*", "String"},
             {"Z", "int" },
-            {"B", "bool" }
+            {"Z+", "int" },
+            {"Z-", "int" },
+            {"B", "bool" },
+            {"Bool", "bool"},
+            {"Boolean", "bool"}
         };
 
         IDictionary<String, String> initValue = new Dictionary<String, String>(){
@@ -120,6 +127,7 @@ namespace FormalSpecification
             if (results.Errors.HasErrors)
             {
                 results.Errors.Cast<CompilerError>().ToList().ForEach(error => Console.WriteLine(error.ErrorText + "\r\n"));
+                MessageBox.Show("Something went wrong please check your input !");
             }
             else
             {
@@ -206,6 +214,7 @@ namespace FormalSpecification
         {
             String fInputRef = "";
             String fInputCode = "";
+            fInputCode += $"\n\t\t\tConsole.WriteLine(\"Day la ham {fName}: \");";
             foreach (var v in lstVariables)
             {
                 String variable = "ref " + v.Value + " " + v.Key + ",";
@@ -431,7 +440,7 @@ namespace FormalSpecification
             int originalLength = rtb.SelectionLength;
             Color originalColor = Color.Black;
 
-            // MANDATORY - focuses a label before highlighting (avoids blinking)
+            // focuses a label before highlighting (avoids blinking)
             label1.Focus();
 
             // removes any previous highlighting (so modified words won't remain highlighted)
@@ -439,7 +448,7 @@ namespace FormalSpecification
             rtb.SelectionLength = rtb.Text.Length;
             rtb.SelectionColor = originalColor;
 
-            // scanning...
+            // scanning
             foreach (Match m in keywordMatches)
             {
                 rtb.SelectionStart = m.Index;
@@ -492,7 +501,10 @@ namespace FormalSpecification
         private void outputText_TextChanged(object sender, EventArgs e)
         {
             hightlightCode(outputText);
-            buildSolution();
+            if(outputText.Text.Length > 0)
+            {
+                buildSolution();
+            }
         }
     }
 }
