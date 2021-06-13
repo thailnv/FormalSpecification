@@ -121,7 +121,7 @@ namespace FormalSpecification
         private void buildSolution()
         {
             CSharpCodeProvider csc = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v4.0" } });
-            CompilerParameters parameters = new CompilerParameters(new[] { "mscorlib.dll", "System.Core.dll" }, "demo.exe", true);
+            CompilerParameters parameters = new CompilerParameters(new[] { "mscorlib.dll", "System.Core.dll" }, $"{exeName}.exe", true);
             parameters.GenerateExecutable = true;
             CompilerResults results = csc.CompileAssemblyFromSource(parameters, outputText.Text);
             if (results.Errors.HasErrors)
@@ -132,7 +132,7 @@ namespace FormalSpecification
             else
             {
                 Console.WriteLine("-----Build succeeded-----");
-                Process.Start(Application.StartupPath + "/" + "demo.exe");
+                Process.Start(Application.StartupPath + "/" + $"{exeName}.exe");
             }
         }
 
@@ -409,7 +409,7 @@ namespace FormalSpecification
             catch (Exception err)
             {
                 Console.WriteLine(err.Message);
-                MessageBox.Show("Something went wrong please check the input");
+                MessageBox.Show("Something went wrong please check the input !");
                 return;
             }
         }
